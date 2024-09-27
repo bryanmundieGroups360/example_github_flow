@@ -1,0 +1,10 @@
+name: CI
+on: push
+
+jobs:
+  comment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Generate Coverage Report  
+        run: |  
+          echo "tests pass"

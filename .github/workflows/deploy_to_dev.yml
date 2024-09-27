@@ -22,10 +22,10 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 name: "build.js",
-                release_id: ${{ github.event.release.id }},
+                release_id: ${{ github.event.release.id }}
               })
             } catch (error) {
-              echo "no asset found"
+             console.log("no file found")
             }
             try {
               return await github.rest.repos.uploadReleaseAsset({

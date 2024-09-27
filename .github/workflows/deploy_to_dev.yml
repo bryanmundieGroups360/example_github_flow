@@ -20,7 +20,7 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 name: "build.js",
-                release_id: ${{ github.ref }}
+                release_id: ${{ github.event.release.id }}
                 data: "test"
               })
             } catch (error) {

@@ -20,7 +20,7 @@ jobs:
                 owner: context.repo.owner,
                 repo: context.repo.repo,
                 name: "builld.js",
-                release_id: ${{ fromJSON(steps.deploy.outputs.result).data.id }}
+                release_id: ${{ steps.get_current_release.outputs.upload_url }}
                 data: 
               })
             } catch (error) {

@@ -2,7 +2,7 @@ name: Publish
 
 on: 
   release:
-    types: [published]
+    types: [prerelease]
 
 jobs:
   build:
@@ -40,6 +40,12 @@ jobs:
             } catch (error) {
               core.setFailed(error.message);
             }
-      - name: Deploy Code
+  deploy:
+    name: Deploy to QA
+    runs-on: ubuntu-latest
+    environment: QA
+    
+    steps:
+      - name: Deploy
         run: |
           echo "deployed"

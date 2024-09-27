@@ -1,20 +1,30 @@
 name: Publish
-on: push
+
+on: release
 
 jobs:
   build:
     name: Publish binaries
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Build
-        run: echo ${{ github.sha }} > build.js
-      - name: Test
-        run: cat build.js
-      - name: Release
-        uses: softprops/action-gh-release@v2
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Build Asset
+        run: |
+          echo "test" > build.js
+      - name: Upload Assets
+        uses: "actions/github-script@v6"
         with:
-          files: build.js
+          script: |
+            try {
+              return await github.rest.repos.uploadReleaseAsset({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: "build.js",
+                release_id: ${{ github.event.release.id }}
+                data: "test"
+              })
+            } catch (error) {
+              core.setFailed(error.message);
+            }

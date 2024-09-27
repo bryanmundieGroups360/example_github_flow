@@ -44,6 +44,7 @@ jobs:
     name: Deploy to QA
     runs-on: ubuntu-latest
     environment: QA
+    needs: build
     
     steps:
       - name: Deploy

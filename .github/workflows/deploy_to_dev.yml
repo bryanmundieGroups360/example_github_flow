@@ -1,0 +1,52 @@
+name: Publish
+
+on: 
+  release:
+    types: [prereleased]
+
+jobs:
+  build:
+    name: Publish binaries
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Build Asset
+        run: |
+          echo "test" > build.js
+      - name: Upload Assets
+        uses: "actions/github-script@v6"
+        with:
+          script: |
+            try {
+              await github.rest.repos.deleteReleaseAsset({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: "build.js",
+                release_id: ${{ github.event.release.id }}
+              })
+            } catch (error) {
+             console.log("no file found")
+            }
+            try {
+              return await github.rest.repos.uploadReleaseAsset({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: "build.js",
+                release_id: ${{ github.event.release.id }},
+                data: "test"
+              })
+            } catch (error) {
+              core.setFailed(error.message);
+            }
+  deploy:
+    name: Deploy to QA
+    runs-on: ubuntu-latest
+    environment: QA
+    needs: build
+    
+    steps:
+      - name: Deploy
+        run: |
+          echo "deployed"

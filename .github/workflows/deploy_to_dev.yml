@@ -3,7 +3,7 @@ name: Deloy To Dev
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build:

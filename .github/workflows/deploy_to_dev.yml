@@ -1,50 +1,24 @@
-name: Publish
+name: Deloy To Dev
 
-on: 
-  release:
-    types: [prereleased]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build:
-    name: Publish binaries
+    name: Build
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-
+    
     steps:
-      - name: Build Asset
+      - name: Build
         run: |
-          echo "test" > build.js
-      - name: Upload Assets
-        uses: "actions/github-script@v6"
-        with:
-          script: |
-            try {
-              await github.rest.repos.deleteReleaseAsset({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                name: "build.js",
-                release_id: ${{ github.event.release.id }}
-              })
-            } catch (error) {
-             console.log("no file found")
-            }
-            try {
-              return await github.rest.repos.uploadReleaseAsset({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                name: "build.js",
-                release_id: ${{ github.event.release.id }},
-                data: "test"
-              })
-            } catch (error) {
-              core.setFailed(error.message);
-            }
+          echo "built"
   deploy:
     name: Deploy to QA
     runs-on: ubuntu-latest
-    environment: QA
     needs: build
+    environment: Dev
     
     steps:
       - name: Deploy

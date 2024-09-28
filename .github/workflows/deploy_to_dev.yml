@@ -1,4 +1,4 @@
-name: Deloy To Dev
+name: Build & Deloy To Dev
 
 on:
   push:

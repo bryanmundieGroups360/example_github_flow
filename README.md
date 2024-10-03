@@ -61,3 +61,5 @@ This is just an example of a CI/CD flow with github flow.  Gitflow can be used w
 - reduced time required for a code change
 - faster deployment/rollback by prebuilding code
 - deploy services and apps independently
+
+new note
